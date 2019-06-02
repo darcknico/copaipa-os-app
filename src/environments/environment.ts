@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  base_path: 'http://copaipa-os-rest.proyectosinformaticos.com.ar/api/',
   production: false
 };
 

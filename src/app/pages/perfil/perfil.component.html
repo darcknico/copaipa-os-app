@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Mis Datos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item-divider>
+          <ion-label>
+            Afiliado
+            <ion-spinner *ngIf="loading"
+              name="lines" color="primary"
+            ></ion-spinner>
+          </ion-label>
+        </ion-item-divider>
+      </ion-col>
+    </ion-row>
+    <ng-container *ngIf="usuario | async as user">
+      <ion-row >
+        <ion-col size="4">
+          <ion-label>
+            Numero afiliado:
+          </ion-label>
+        </ion-col>
+        <ion-col size="8">
+          <ion-label>
+            <b>{{ user.id }}</b>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row >
+        <ion-col size="4">
+          <ion-label>
+            Nombre:
+          </ion-label>
+        </ion-col>
+        <ion-col size="8">
+          <ion-label text-wrap>
+            <b>{{ user.nombre }}</b>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row >
+        <ion-col size="4">
+          <ion-label>
+            Profesion:
+          </ion-label>
+        </ion-col>
+        <ion-col size="8">
+          <ion-label text-wrap>
+            <b>{{ user.profesion }}</b>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row >
+        <ion-col size="4">
+          <ion-label>
+            Prestador:
+          </ion-label>
+        </ion-col>
+        <ion-col size="8">
+          <ion-label text-wrap>
+            <b>{{ user.prestador }}</b>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item-divider>
+            <ion-label>
+              Beneficiarios
+            </ion-label>
+          </ion-item-divider>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>
+            <u>Tipo:</u>
+          </ion-label>
+        </ion-col>
+        <ion-col size="4" text-center>
+          <ion-label>
+            <u>Cantidad:</u>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ng-container *ngIf="user.beneficiarios else noBeneficiarios">
+        <ion-row *ngFor="let item of user.lista">
+          <ion-col size="8">
+            <ion-label>
+              {{item.tipo}}
+            </ion-label>
+          </ion-col>
+          <ion-col size="4" text-center>
+            <ion-label >
+              {{item.cantidad}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ng-container>
+      <ng-template #noBeneficiarios >
+        <ion-row>
+          <ion-col size="12">
+            <ion-label>
+              No hay beneficiarios
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ng-template>
+    </ng-container>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,10 @@
+<ion-list lines="none" no-margin>
+  <ion-item (click)="close(1)" [disabled]="loading">
+    <ion-icon slot="start" name="refresh"></ion-icon>
+    <ion-label>Refrescar</ion-label>
+  </ion-item>
+  <ion-item (click)="close(2)" [disabled]="loading">
+    <ion-icon slot="start" name="options"></ion-icon>
+    <ion-label>Filtrar</ion-label>
+  </ion-item>
+</ion-list>

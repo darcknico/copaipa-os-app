@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+        Detalle del Aporte
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="md-close" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>  
+</ion-header>
+<ion-content no-padding>
+  <ion-item-group>
+    <ion-item-divider color="light">
+      <ion-label text-center>Recibo Nº {{item.id_recibo}} {{item.fecha | date:'dd/MM/yyyy'}}</ion-label>
+    </ion-item-divider>
+    <ion-item-divider >
+      <ion-label text-wrap>
+        <h3>Aporte ${{item.aporte | number:'1.2-2':'es-AR'}}</h3>
+        <h3>Importe ${{item.total_importe_asignado | number:'1.2-2':'es-AR'}}
+        </h3>
+      </ion-label>
+    </ion-item-divider>
+    <ion-item color="light" lines="full">
+      <ion-label >
+        <ion-grid no-padding>
+          <ion-row>
+            <ion-col size="4">Mes</ion-col>
+            <ion-col size="4">Año</ion-col>
+            <ion-col size="4">Importe</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngFor="let detalle of detalles" class="animated fadeIn" lines="none">
+      <ion-label>
+        <ion-grid no-padding>
+          <ion-row>
+            <ion-col size="4">{{ detalle.mes }}</ion-col>
+            <ion-col size="4">{{ detalle.anio }}</ion-col>
+            <ion-col size="4">${{ detalle.importe | number:'1.2-2':'es-AR'}}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-label>
+    </ion-item>
+  </ion-item-group>
+  <ion-grid *ngIf="detalles.length == 0">
+    <ion-row class='align-items-center'>
+      <ion-col class="ion-align-self-center	" >
+        <label text-center>
+            El aporte esta disponible
+        </label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

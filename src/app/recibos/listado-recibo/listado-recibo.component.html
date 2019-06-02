@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Recibos
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="popover($event)">
+        <ion-icon name="more" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+  <ion-list lines="full">
+    <ion-item *ngIf="total==0 && !consultando">
+      No hay recibos del afiliado
+    </ion-item>
+    <ion-item *ngFor="let item of listado" class="animated fadeIn">
+      <ion-label >
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-text-center">
+              <h2 text-wrap >
+                <b>{{item.fecha | date:'dd/MM/yyyy'}}</b>
+              </h2>
+            </ion-col>
+            <ion-col>
+              <ion-button color="primary" class="ion-float-end" (click)="reporte(item)">
+                Reporte
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="ion-text-nowrap">
+          <p text-wrap> Recibo Nº {{item.id_recibo}} - {{item.tipo}}</p>
+        </div>
+        <ion-grid>
+          <ion-row>
+            <ion-col >
+              <h3 text-wrap >
+                <b>Importe ${{item.importe | number:'1.2-2':'es-AR'}}</b>
+              </h3>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="listado.length < total" button [disabled]="consultando" (click)="loadMore()">
+      <ion-label text-center>Cargar mas datos</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-grid *ngIf="listado.length == 0 && consultando">
+    <ion-row align-items-center>
+      <ion-col align-self-center>
+        <ion-spinner 
+          name="lines" color="primary"
+          style=" position: initial;"
+          ></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" *ngIf="total>0">
+    <ion-infinite-scroll-content
+      loadingSpinner="lines"
+      loadingText="Consultando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
