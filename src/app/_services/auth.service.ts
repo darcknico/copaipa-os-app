@@ -45,13 +45,13 @@ export class AuthService {
     }
 
     public logout() {
-        this.deposito.remove(TOKEN_KEY).then( _ => {
+        this.deposito.remove('usuario').then( _ =>{
+            this.user$.next(null);
+        });
+        return this.deposito.remove(TOKEN_KEY).then( _ => {
             this.authState$.next(false);
             this.token$.next(null);
             this.navController.navigateRoot('external/login');
-        });
-        this.deposito.remove('usuario').then( _ =>{
-            this.user$.next(null);
         });
     }
   

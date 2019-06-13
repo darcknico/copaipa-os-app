@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
@@ -11,6 +11,8 @@ import { File } from '@ionic-native/file/ngx';
 import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Toast } from '@ionic-native/toast/ngx';
+
+import { IonicSelectableModule } from 'ionic-selectable';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import es from '@angular/common/locales/es-AR';
 registerLocaleData(es);
@@ -37,6 +39,9 @@ import { AporteService } from './_services/aporte.service';
 import { DeudaService } from './_services/deuda.service';
 import { ReciboService } from './_services/recibo.service';
 import { NovedadService } from './_services/novedad.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from 'src/environments/environment';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -62,13 +67,19 @@ export function createTranslateLoader(http: HttpClient) {
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    IonicSelectableModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Platform,
     HTTP,
     HttpAngularProvider,
     HttpNativeProvider,
+    AuthService,
     HttpInterceptorProvider,
     LoadingService,
     AlertService,
@@ -80,13 +91,12 @@ export function createTranslateLoader(http: HttpClient) {
     Toast,
     NativeStorage,
     DepositoService,
-    AuthService,
+
     UsuarioService,
     AporteService,
     DeudaService,
     ReciboService,
     NovedadService,
-    
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

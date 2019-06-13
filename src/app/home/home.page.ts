@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
     fullscreen: 'yes',
     footer: 'no'
   };
-  novedades:any;
+  novedades=[];
   constructor(
     private novedadService:NovedadService,
     private platform: Platform,
@@ -48,14 +48,10 @@ export class HomePage implements OnInit {
       this.deposito.getItem('novedades')
       .then(
         data => {
-          this.novedades = data;
-          this.deposito.getItem('actualizado').then(data=>{
-            let ahora = moment();
-            let fecha = moment(data);
-            if(!fecha.isSame(ahora,'day')){
-              this.actualizar();
-            }
-          });
+          if(data){
+            this.novedades = data;
+          }
+          this.actualizar();
         },
         error => {
           this.actualizar();
@@ -89,8 +85,6 @@ export class HomePage implements OnInit {
       if(event){
         event.target.complete();
       }
-      let fecha = moment();
-      this.deposito.setItem('actualizado',fecha.format('YYYY-MM-DD HH:mm')).then(() => console.log('Fecha actualizada'));
       this.deposito.setItem('novedades', response)
       .then(
         () => console.log('Novedades actualizada'),

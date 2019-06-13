@@ -32,48 +32,44 @@ export class HttpInterceptorProvider {
     public get(url: string, params?: any, options: any = {}):Observable<any> {
         options['Content-Type']="application/json";
         return this.http.get(url,params, options,this.token).pipe(
-            catchError(this.interceptor)
+            catchError(err=>this.interceptor(err))
         );
     }
 
     public post(url: string, params: any, options: any = {}):Observable<any> {
         options['Content-Type']="application/json";
         return this.http.post(url, params, options,this.token).pipe(
-            catchError(this.interceptor)
+            catchError(err=>this.interceptor(err))
         );
     }
 
     public put(url: string, params: any, options: any = {}):Observable<any> {
         options['Content-Type']="application/json";
         return this.http.put(url, params, options,this.token).pipe(
-            catchError(this.interceptor)
+            catchError(err=>this.interceptor(err))
         );
     }
 
     public delete(url: string, params?: any, options: any = {}):Observable<any> {
         options['Content-Type']="application/json";
         return this.http.delete(url, params, options,this.token).pipe(
-            catchError(this.interceptor)
+            catchError(err=>this.interceptor(err))
         );
     }
 
-    public interceptor(err,caught){
+    public interceptor(err){
         console.log(err);
         if(err.status==400){
             this.navController.navigateRoot('home');
             return of([]);
         } else if(err.status==401){
-            /*
             this.alertService.present(
                 'Error',
                 null,
                 err.error.error,
                 ['OK']
             );
-            */
-            this.platform.ready().then(()=>{
-                this.authService.logout();
-            });
+            this.authService.logout();
         } else if(err.status==504){
             this.alertService.present('Error',null,'Conexion perdida',[]);
         } else if(err.status==500){
