@@ -39,7 +39,7 @@
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "animate.css": "^3.7.0",
-    "cordova-android": "7.1.4",
+    "cordova-android": "8.1.0",
     "cordova-browser": "5.0.4",
     "cordova-plugin-advanced-http": "2.0.9",
     "cordova-plugin-device": "^2.0.2",

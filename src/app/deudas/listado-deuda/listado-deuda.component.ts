@@ -43,6 +43,7 @@ export class ListadoDeudaComponent implements OnInit {
       if(response.items.length>0){
         for(let i = 0; i < response.items.length; i++){
           let item = response.items[i];
+          item.a_pagar = Number(item.importe) + Number(item.interes) - Number(item.cobrado);
           setTimeout(() => {
               this.listado.push(item);
           }, 200*(i+1));
