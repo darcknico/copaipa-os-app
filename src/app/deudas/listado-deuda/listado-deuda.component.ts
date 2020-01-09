@@ -23,6 +23,7 @@ export class ListadoDeudaComponent implements OnInit {
   }
   consultando:boolean = false;
   total:number = 0;
+  refresherDisabled:boolean = false;
   constructor(
     private aporteService:DeudaService,
     private modalCtrl: ModalController,
@@ -52,6 +53,9 @@ export class ListadoDeudaComponent implements OnInit {
       }
       this.total = response.total_count;
       this.consultando = false;
+      if(response.items.length==0){
+        this.refresherDisabled = true;
+      }
     });
   }
 
@@ -72,11 +76,15 @@ export class ListadoDeudaComponent implements OnInit {
       this.filtro.start += response.items.length;
       for(let i = 0; i < response.items.length; i++){
         let item = response.items[i];
+        item.a_pagar = Number(item.importe) + Number(item.interes) - Number(item.cobrado);
         setTimeout(() => {
             this.listado.push(item);
         }, 200*(i+1));
       }
       event.target.complete();
+      if(response.items.length==0){
+        this.refresherDisabled = true;
+      }
     });
   }
 }

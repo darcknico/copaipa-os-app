@@ -71,7 +71,8 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" *ngIf="total>0">
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" *ngIf="total>0"
+    [disabled]="refresherDisabled">
     <ion-infinite-scroll-content
       loadingSpinner="lines"
       loadingText="Consultando...">
