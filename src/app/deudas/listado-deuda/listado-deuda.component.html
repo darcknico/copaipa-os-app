@@ -14,52 +14,20 @@
   </ion-toolbar>
 </ion-header>
 <ion-content no-padding>
-  <ion-list lines="full">
+  <ion-list lines="full" class="ion-no-padding">
+    <ion-list-header *ngIf="mostrarUltimo" color="medium">
+      <ion-label>Ultima deuda con saldo</ion-label>
+    </ion-list-header>
+    <app-componentes-item-deuda [item]="ultimo" [ultimo]="true" class="animated fadeIn" *ngIf="mostrarUltimo"></app-componentes-item-deuda>
+    <ion-list-header *ngIf="mostrarUltimo" color="medium">
+      <ion-label>Listado por fecha</ion-label>
+    </ion-list-header>
     <ion-item *ngIf="total==0 && !consultando">
       No hay deudas del afiliado
     </ion-item>
-    <ion-item *ngFor="let item of listado" class="animated fadeIn">
-      <ion-label >
-        <ion-grid>
-          <ion-row>
-            <ion-col class="ion-text-center">
-              <h2 text-wrap >
-                <b>{{ monthNames[item.mes-1] }} / {{item.anio}}</b>
-              </h2>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        <div class="ion-text-nowrap">
-          <p text-wrap>{{item.tipo}}</p>
-        </div>
-        <ion-grid>
-          <ion-row>
-            <ion-col text-wrap>
-              <h3>
-                <b>Importe ${{item.importe | number:'1.2-2':'es-AR'}}</b>
-                <ng-container>
-                  (Interes ${{item.interes | number:'1.2-2':'es-AR'}})
-                </ng-container>
-              </h3>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col *ngIf="item.cobrado>0">
-              <h3 text-wrap >
-                <b>Cobrado ${{item.cobrado | number:'1.2-2':'es-AR'}}</b>
-              </h3>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <h3 text-wrap >
-                <b>A pagar ${{item.a_pagar | number:'1.2-2':'es-AR'}}</b>
-              </h3>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-label>
-    </ion-item>
+    <ng-container *ngFor="let item of listado">
+      <app-componentes-item-deuda [item]="item" [ultimo]="isUltimo(item)" class="animated fadeIn"></app-componentes-item-deuda>
+    </ng-container>
   </ion-list>
   <ion-grid *ngIf="listado.length == 0 && consultando">
     <ion-row align-items-center>

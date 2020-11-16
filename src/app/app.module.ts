@@ -42,6 +42,7 @@ import { NovedadService } from './_services/novedad.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
+import { MercadoPagoService } from './_services/mercadopago.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -97,6 +98,8 @@ export function createTranslateLoader(http: HttpClient) {
     DeudaService,
     ReciboService,
     NovedadService,
+    MercadoPagoService,
+    
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

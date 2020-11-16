@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UsuarioService } from './_services/usuario.service';
 import { AuthService } from './_services/auth.service';
 import { LoadingService } from './providers/loading.service';
+import { HTTP } from '@ionic-native/http/ngx';
 
 @Component({
   selector: 'app-root',
@@ -49,12 +50,22 @@ export class AppComponent {
     private usuarioService:UsuarioService,
     private authService:AuthService,
     private loadingService:LoadingService,
+    private nativeHttp: HTTP,
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      if(this.platform.is('cordova')){
+        this.nativeHttp.setServerTrustMode('pinned')
+        .then(() => {
+            console.log('SSL Pinning Starts');
+        })
+        .catch(() => {
+          console.log('SSL Pinning Fails');
+        });
+      }
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 

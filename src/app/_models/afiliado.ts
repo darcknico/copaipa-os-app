@@ -4,6 +4,7 @@ export interface Afiliado{
     profesion:string;
     prestador:string;
     beneficiarios:string;
+    email:string;
     
     lista:any[];
 }

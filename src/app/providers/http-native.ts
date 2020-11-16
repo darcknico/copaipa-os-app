@@ -3,12 +3,17 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { from, Observable, throwError } from 'rxjs';
 import { Auxiliar } from '../_helpers/auxiliar';
 import { catchError } from 'rxjs/internal/operators/catchError';
+import { Platform } from '@ionic/angular';
 @Injectable()
 export class HttpNativeProvider {
 
     constructor(
+        private platform: Platform,
         public http: HTTP,
         ) {
+        if(this.platform.is('cordova')){
+            this.http.setDataSerializer('json');
+        }
     }
 
     public get(url: string, params: any = {}, options: any = {}, token:string = null):Observable<any> {
@@ -75,8 +80,10 @@ export class HttpNativeProvider {
         );
     }
 
-    private parseErrar(err,caught){
-        err.error = JSON.parse(err.error);
+    private parseErrar(err){
+        if(err.error){
+            err.error = JSON.parse(err.error);
+        }
         return throwError(err);
     }
 }

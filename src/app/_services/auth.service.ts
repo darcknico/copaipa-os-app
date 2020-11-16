@@ -45,10 +45,10 @@ export class AuthService {
     }
 
     public logout() {
-        this.deposito.remove('usuario').then( _ =>{
+        this.deposito.remove('afiliado').then( () =>{
             this.user$.next(null);
         });
-        return this.deposito.remove(TOKEN_KEY).then( _ => {
+        return this.deposito.remove(TOKEN_KEY).then( () => {
             this.authState$.next(false);
             this.token$.next(null);
             this.navController.navigateRoot('external/login');
@@ -94,6 +94,6 @@ export class AuthService {
     }
 
     public getUsuario(){
-        return this.deposito.getItem('usuario');
+        return this.deposito.getItem('afiliado');
     }
 }

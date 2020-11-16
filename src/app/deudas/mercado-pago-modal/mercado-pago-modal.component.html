@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+        Estado del pago
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="md-close" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>  
+</ion-header>
+<ion-content padding>
+  <ion-list lines="none" class="animated fadeIn">
+    <ion-list-header>
+      <ion-label>{{item.tipo}} {{ monthNames[item.mes-1] }} / {{item.anio}}</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label class="ion-wrap">
+        <b>Importe ${{item.importe | number:'1.2-2':'es-AR'}}</b>
+        <ng-container>
+          (Interes ${{item.interes | number:'1.2-2':'es-AR'}})
+        </ng-container>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-row>
+          <ion-col *ngIf="item.cobrado>0">
+            <h3 text-wrap >
+              <b>Cobrado ${{item.cobrado | number:'1.2-2':'es-AR'}}</b>
+            </h3>
+          </ion-col>
+          <ion-col>
+            <h3 text-wrap >
+              <b>A pagar ${{item.a_pagar | number:'1.2-2':'es-AR'}}</b>
+            </h3>
+          </ion-col>
+        </ion-row>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ng-container *ngIf="!item.mercadopago">
+    <ion-list>
+      <ion-list-header>
+        <ion-label>INGRESE SU CORREO ELECTRONICO</ion-label>
+      </ion-list-header>
+    </ion-list>
+    <form [formGroup]="formulario" (ngSubmit)="confirmar()">
+      <ion-item>
+        <ion-label position="floating">Correo electronico <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required formControlName="email" type="text"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="f.email.invalid && f.email.touched" lines="none">
+        <ion-text color="danger" class="form-error">
+          <small>
+            Ingrese un correo electronico valido.
+          </small>
+        </ion-text>
+      </ion-item>
+      <ion-button expand="block" fill="solid" color="primary" type="submit" [disabled]="formulario.invalid || isLoading">
+        GENERAR
+      </ion-button>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="isLoading">
+    <ion-row align-items-center class="animated fadeIn">
+      <ion-col align-self-center>
+        <ion-spinner 
+          name="lines" color="primary"
+          style=" position: initial;"
+          ></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+  <ng-container *ngIf="item.mercadopago">
+    <ion-list class="animated fadeIn">
+      <ion-list-header>
+        <ion-label>PREFERENCIA DE PAGO</ion-label>
+        <ion-button (click)="eliminar()" color="danger" size="small" [disabled]="isLoading"
+        fill="outline" *ngIf="item.mercadopago.payment_status != 'approved'">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+      </ion-list-header>
+      <ion-item *ngIf="pago?.email">
+        <ion-label>Correo: {{pago.email}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Monto: ${{item.mercadopago.importe_pagado | number:'1.2-2':'es-AR'}}</ion-label>
+      </ion-item>
+      <ion-item button (click)="mercadopago()" [disabled]="isLoading" *ngIf="item.mercadopago.payment_status != 'approved' && pago?.preference_url">
+        <ion-label>ABRIR MERCADOPAGO</ion-label>
+        <ion-icon slot="end" name="log-out"></ion-icon>
+      </ion-item>
+      <ion-item *ngIf="item.mercadopago.fecha">
+        <ion-label >Fecha de pago: {{item.mercadopago.fecha | date:'dd/MM/yyyy'}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label class="ion-wrap">Estado: 
+          <b *ngIf="item.mercadopago.payment_status">
+            {{item.mercadopago.payment_status}}
+          </b>
+          <span *ngIf="!item.mercadopago.payment_status">sin cambios</span>
+        </ion-label>
+        <ion-button slot="end" (click)="actualizar()" expand="block" fill="clear" shape="round" *ngIf="item.mercadopago.payment_status != 'approved'" [disabled]="isLoading">
+          <ion-icon slot="icon-only" name="refresh"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ng-container>  
+</ion-content>

@@ -1,3 +1,5 @@
+import { PagoMercadoPago } from './pago.mercadopago';
+
 export interface Deuda{
     id_afiliado:number;
     anio:number;
@@ -6,4 +8,7 @@ export interface Deuda{
     cobrado:number;
     tipo:string;
     interes:number;
+
+    mercadopago:PagoMercadoPago;
+    a_pagar:number;
 }

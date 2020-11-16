@@ -1,4 +1,4 @@
 export const environment = {
-  base_path: 'http://copaipa-os-rest.proyectosinformaticos.com.ar/api/',
+  base_path: 'https://app.oscopaipa.org.ar/api/',
   production: true
 };

@@ -36,4 +36,19 @@ export class DeudaService {
         );
     }
 
+    /**
+     * 
+     * @param item Deuda
+     */
+    public obtener(item:Deuda){
+        return this.http.post(this.base_path+'/obtener',item);
+    }
+
+    /**
+     * 
+     * @param item Deuda
+     */
+    public ultimo(){
+        return this.http.get(this.base_path+'/ultimo');
+    }
 }

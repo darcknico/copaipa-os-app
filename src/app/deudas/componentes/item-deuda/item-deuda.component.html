@@ -1,0 +1,65 @@
+<ion-item class="animated fadeIn" *ngIf="item">
+  <ion-label >
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <h2 text-wrap >
+            <b>{{ monthNames[item.mes-1] }} / {{item.anio}}</b>
+          </h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div class="ion-text-nowrap">
+      <p text-wrap>{{item.tipo}}</p>
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col text-wrap>
+          <h3>
+            <b>Importe ${{item.importe | number:'1.2-2':'es-AR'}}</b>
+            <ng-container>
+              (Interes ${{item.interes | number:'1.2-2':'es-AR'}})
+            </ng-container>
+          </h3>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngIf="item.cobrado>0">
+          <h3 text-wrap >
+            <b>Cobrado ${{item.cobrado | number:'1.2-2':'es-AR'}}</b>
+          </h3>
+        </ion-col>
+        <ion-col>
+          <h3 text-wrap >
+            <b>A pagar ${{item.a_pagar | number:'1.2-2':'es-AR'}}</b>
+          </h3>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="!item.mercadopago && item.a_pagar>0 && ultimo">
+        <ion-col size="12">
+          <ion-button (click)="abrirMercadoPago(item)" expand="block" fill="solid" shape="round" color="primary">
+            PAGAR CON MERCADO PAGO
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ng-container *ngIf="item.mercadopago">
+        <ion-row >
+          <ion-col size="12">
+            <h3 text-wrap >
+              Mercado Pago:
+                <b *ngIf="item.mercadopago.payment_status">{{item.mercadopago.payment_status}}</b>
+                <span *ngIf="!item.mercadopago.payment_status">sin cambios</span>
+            </h3>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-button (click)="abrirMercadoPago(item)" expand="block" size="small" fill="solid" shape="round" color="primary">
+              DETALLE
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ng-container>
+    </ion-grid>
+  </ion-label>
+</ion-item>

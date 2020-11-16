@@ -70,10 +70,19 @@ export class HttpInterceptorProvider {
                 ['OK']
             );
             this.authService.logout();
-        } else if(err.status==504){
+        } else if(err.status==401){
+            this.alertService.present(
+                'Error',
+                null,
+                err.error.message,
+                ['OK']
+            );
+        }else if(err.status==504){
             this.alertService.present('Error',null,'Conexion perdida',[]);
         } else if(err.status==500){
             this.alertService.present('Error',null,'Problemas en el sistema',[]);
+        } else{
+            this.alertService.present('Error',null,'Problemas en el sistema/App',[]);
         }
         return throwError(err);
     }
